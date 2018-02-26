@@ -1,24 +1,43 @@
 package pl.maxwell.okienko;
 
+import java.awt.GraphicsConfiguration;
+import java.awt.HeadlessException;
 import javax.swing.JFrame;
 
-abstract class Okno extends JFrame 
+
+class Okno extends JFrame 
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	Okno()
+	public Okno() throws HeadlessException
 	{
-		
+		super();
+		this.setSize(640,480);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
-	public void RysujOkno()
+	public Okno(GraphicsConfiguration gc) throws HeadlessException
 	{
-		
+		super(gc);
+		this.setSize(640,480);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	}
+	public Okno(String tytul) throws HeadlessException
+	{
+		super(tytul);
+		this.setSize(640,480);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	}
+	public Okno(String tytul, GraphicsConfiguration gc) throws HeadlessException
+	{
+		super(tytul,gc);
+		this.setSize(640,480);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
-	//Pola:
-	int wysokosc;
-	int szerokosc;
+	public static void main(String[] args)
+	{
+		Okno okienko = new Okno();
+		okienko.setVisible(true);
+	}
+	
+	
+	
 }
