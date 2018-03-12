@@ -4,5 +4,5 @@ public interface Figura
 {
 	public double obliczObwod();
 	public double obliczPole();
-	final double PI = (double) 3.1415926536; 
+	final double PI = 3.1415926536; 
 }
