@@ -18,6 +18,36 @@ public class Okno extends JFrame{
 	Sterowanie opcje;
 	Plansza pole;
 	
+	public Menu getPasekWyboru() {
+		return pasekWyboru;
+	}
+
+
+	public void setPasekWyboru(Menu pasekWyboru) {
+		this.pasekWyboru = pasekWyboru;
+	}
+
+
+	public Sterowanie getOpcje() {
+		return opcje;
+	}
+
+
+	public void setOpcje(Sterowanie opcje) {
+		this.opcje = opcje;
+	}
+
+
+	public Plansza getPole() {
+		return pole;
+	}
+
+
+	public void setPole(Plansza pole) {
+		this.pole = pole;
+	}
+
+
 	public Okno() throws HeadlessException {
 		super("Rysownik v.2.0");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -28,7 +58,7 @@ public class Okno extends JFrame{
 		this.gora = new JPanel();
 		gora.setLayout(new FlowLayout());
 		gora.setBackground(Color.GREEN); //Testy polozenia
-		this.pasekWyboru = new Menu();
+		this.pasekWyboru = new Menu(this);
 		this.setJMenuBar(pasekWyboru);
 		this.add(gora, BorderLayout.PAGE_START);
 		
@@ -36,9 +66,10 @@ public class Okno extends JFrame{
 		SpringLayout styl = new SpringLayout(); //Pozycjonowanie elementów
 		srodek.setLayout(styl);
 		srodek.setBackground(Color.BLUE); //Testy polozenia
-		opcje = new Sterowanie();
+		
+		pole = new Plansza(350,400);
+		opcje = new Sterowanie(pole);
 		srodek.add(opcje);
-		pole = new Plansza(400,400);
 		srodek.add(pole);
 		
 		styl.putConstraint(SpringLayout.WEST, opcje, 5, SpringLayout.WEST, srodek);

@@ -16,16 +16,50 @@ public class Plansza extends JPanel{
 	private Figura figura;
 	
 	Graphics2D g2d;
-	Color color;
+	Color colorline;
 	BasicStroke stroke;
 
 	
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public Figura getFigura() {
+		return figura;
+	}
+
+	public void setFigura(Figura figura) {
+		this.figura = figura;
+	}
+
+	public Color getColorline() {
+		return colorline;
+	}
+
+	public void setColorline(Color colorline) {
+		this.colorline = colorline;
+	}
+
 	public Plansza(int x, int y)
 	{
 		super();
 		width = x;
 		height = y;
+		colorline = Color.BLACK;
 		this.setPreferredSize(new Dimension(width,height));
+		this.setBackground(Color.WHITE);
 		int[] posX = {230,3,5,30};
 		int[] posY = {123,5,145,2};
 		figura = new Wielokat(posX, posY, 4);
@@ -38,7 +72,7 @@ public class Plansza extends JPanel{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g2d = (Graphics2D) g;
-		g2d.setColor(color);
+		g2d.setColor(colorline);
 		g2d.setStroke(stroke);
 		g2d.drawPolygon( (Polygon) figura);
 	}
