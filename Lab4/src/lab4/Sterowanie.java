@@ -47,6 +47,10 @@ public class Sterowanie extends JPanel {
 	JLabel katyOpis;
 	JSlider katyWybor;
 	JTextField katyPole;
+	JPanel rozmiarSekcja;
+	JLabel rozmiarOpis;
+	JSlider rozmiarWybor;
+	JTextField rozmiarPole;
 	
 	
 	public Sterowanie(Plansza plansza)
@@ -148,7 +152,7 @@ public class Sterowanie extends JPanel {
 		pole2.add(gruboscPX);
 		
 		pole3 = new JPanel(new FlowLayout());
-		pole3.setLayout(new GridLayout(3,1));
+		pole3.setLayout(new GridLayout(4,1));
 		wielokatRandom = new JRadioButton("Wielokąt losowy");
 		wielokatRandom.setActionCommand("0");
 		wielokatRandom.addActionListener(wielokatyListener);
@@ -165,12 +169,71 @@ public class Sterowanie extends JPanel {
 		katySekcja.setLayout(new BoxLayout(katySekcja, BoxLayout.Y_AXIS));
 		katyOpis = new JLabel("Ile kątów:");
 		katySekcja.add(katyOpis);
-		katyWybor = new JSlider(JSlider.HORIZONTAL,0,50,4);
+		katyWybor = new JSlider(JSlider.HORIZONTAL,3,50,4);
+		katyWybor.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				
+				katyPole.setText( String.valueOf(katyWybor.getValue()));
+			}
+			
+		});
 		katySekcja.add(katyWybor);
 		katyPole = new JTextField("4");
+		katyPole.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int value=0;
+				String pole;
+				pole = katyPole.getText();
+				if(pole.isEmpty())
+					pole="3";
+				value=Integer.parseInt(pole.replaceAll("[\\D]", ""));
+				katyWybor.setValue(value);
+				
+			}
+			
+		});
 		katyPole.setMaximumSize(new Dimension(50,25));
 		katySekcja.add(katyPole);
 		pole3.add(katySekcja);
+		
+		rozmiarSekcja = new JPanel();
+		rozmiarSekcja.setLayout(new BoxLayout(rozmiarSekcja, BoxLayout.Y_AXIS));
+		rozmiarOpis = new JLabel("Rozmiar tworzonego wielokąta:");
+		rozmiarSekcja.add(rozmiarOpis);
+		rozmiarWybor = new JSlider(JSlider.HORIZONTAL,0,100,10);
+		rozmiarWybor.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				
+				rozmiarPole.setText( String.valueOf(rozmiarWybor.getValue()));
+			}
+			
+		});
+		rozmiarSekcja.add(rozmiarWybor);
+		rozmiarPole = new JTextField("10");
+		rozmiarPole.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int value=0;
+				String pole;
+				pole = rozmiarPole.getText();
+				if(pole.isEmpty())
+					pole="10";
+				value=Integer.parseInt(pole.replaceAll("[\\D]", ""));
+				rozmiarWybor.setValue(value);
+				
+			}
+			
+		});
+		rozmiarPole.setMaximumSize(new Dimension(50,25));
+		rozmiarSekcja.add(rozmiarPole);
+		pole3.add(rozmiarSekcja);
 		
 		okienka.addTab("Kolory", pole1);
 		okienka.addTab("Linie", pole2);
@@ -188,11 +251,11 @@ public class Sterowanie extends JPanel {
 			switch(wybor)
 			{
 			case 0:
-				((Wielokat) plansza.getFigura()).UstalPunkty(false, 7, (float) 1,plansza.getWidth(), plansza.getHeight());
+				((Wielokat) plansza.getFigura()).UstalPunkty(false, katyWybor.getValue(), (float) rozmiarWybor.getValue()/100,plansza.getWidth(), plansza.getHeight());
 				plansza.paintComponent(plansza.getGraphics());
 				break;
 			case 1:
-				((Wielokat) plansza.getFigura()).UstalPunkty(true, 7, (float) 1,plansza.getWidth(), plansza.getHeight());
+				((Wielokat) plansza.getFigura()).UstalPunkty(true, katyWybor.getValue(), (float) rozmiarWybor.getValue()/100,plansza.getWidth(), plansza.getHeight());
 				plansza.paintComponent(plansza.getGraphics());
 				break;
 			}

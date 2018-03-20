@@ -40,8 +40,8 @@ public class Wielokat extends Polygon implements Figura {
 			ypoints = new int[katy];
 			for(int i=0; i<katy; i++)
 			{
-				xpoints[i]=(int) (rozmiar*width*generator.nextFloat());
-				ypoints[i]=(int) (rozmiar*height*generator.nextFloat());
+				xpoints[i]=(int) (rozmiar*(width/2)*Math.cos(2*PI*generator.nextFloat())+width/2);
+				ypoints[i]=(int) (rozmiar*(height/2)*Math.cos(2*PI*generator.nextFloat())+height/2);
 			}
 		}
 	}

@@ -61,8 +61,8 @@ public class Plansza extends JPanel{
 		this.setPreferredSize(new Dimension(width,height));
 		this.setBackground(Color.WHITE);
 		
-		int[] posX = {230,3,5,30};
-		int[] posY = {123,5,145,2};
+		int[] posX = {0,0,0,0};
+		int[] posY = {0,0,0,0};
 		figura = new Wielokat(posX, posY, 4);
 		stroke = new BasicStroke(1);
 
