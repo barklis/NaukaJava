@@ -1,9 +1,14 @@
 package lab4;
 
-public interface Figura {
+import java.awt.Color;
+
+public interface Figura{
 	
 	final double PI = 3.1415926536;
 	
-	public void Rysuj();
+	public int getLiniaSize();
+	public void setLiniaSize(int size);
+	public Color getLiniaColor();
+	public void setLiniaColor(Color kolor);
 	
 }

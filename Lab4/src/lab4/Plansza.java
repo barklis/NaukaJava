@@ -60,6 +60,7 @@ public class Plansza extends JPanel{
 		colorline = Color.BLACK;
 		this.setPreferredSize(new Dimension(width,height));
 		this.setBackground(Color.WHITE);
+		
 		int[] posX = {230,3,5,30};
 		int[] posY = {123,5,145,2};
 		figura = new Wielokat(posX, posY, 4);
@@ -73,10 +74,17 @@ public class Plansza extends JPanel{
 		super.paintComponent(g);
 		g2d = (Graphics2D) g;
 		g2d.setColor(colorline);
-		g2d.setStroke(stroke);
-		g2d.drawPolygon( (Polygon) figura);
+		g2d.setStroke(new BasicStroke(figura.getLiniaSize()));
+		g2d.drawPolygon( (Wielokat) figura);
 	}
 	
+	
+	@Override
+	public void repaint() {
+		
+		super.repaint();
+	}
+
 	public void UmiescPolygon()
 	{
 		

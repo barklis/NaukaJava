@@ -2,6 +2,7 @@ package lab4;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -9,18 +10,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 
 public class Sterowanie extends JPanel {
+	//Kolory:
 	Plansza plansza;
 	JPanel pole1;
 	JSlider R, G, B;
@@ -30,6 +36,18 @@ public class Sterowanie extends JPanel {
 	JPanel pole2;
 	JPanel pole3;
 	JTabbedPane okienka;
+	//Linie:
+	JLabel gruboscOpis;
+	JSlider gruboscLinia;
+	JTextField gruboscPX;
+	//Typ:
+	JRadioButton wielokatRandom;
+	JRadioButton wielokatRegularny;
+	JPanel katySekcja;
+	JLabel katyOpis;
+	JSlider katyWybor;
+	JTextField katyPole;
+	
 	
 	public Sterowanie(Plansza plansza)
 	{
@@ -88,18 +106,99 @@ public class Sterowanie extends JPanel {
 		
 		zatwierdz = new JButton("Zatwierdź");
 		zatwierdz.addActionListener(guzikZatwierdz); 
-		pole1.add(zatwierdz);
+		zatwierdz.setPreferredSize(new Dimension(200,50));
+		this.add(zatwierdz,BorderLayout.PAGE_END);
 		
-		pole2 = new JPanel(new FlowLayout());
+		pole2 = new JPanel();
+		pole2.setLayout(new BoxLayout(pole2,BoxLayout.Y_AXIS));
+		gruboscOpis = new JLabel("Grubość lini:");
+		pole2.add(gruboscOpis);
+		gruboscLinia = new JSlider(JSlider.VERTICAL,0,100,12);
+		gruboscLinia.setMajorTickSpacing(10);
+		gruboscLinia.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				
+				gruboscPX.setText(gruboscLinia.getValue()+"px");
+			}
+			
+		});
+		
+		gruboscLinia.setMinorTickSpacing(2);
+		gruboscLinia.setPaintTicks(true);
+		gruboscPX = new JTextField("0px");
+		gruboscPX.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int value=0;
+				String pole;
+				pole = gruboscPX.getText();
+				if(pole.isEmpty())
+					pole="0px";
+				value=Integer.parseInt(pole.replaceAll("[\\D]", ""));
+				gruboscLinia.setValue(value);
+				
+			}
+			
+		});
+		gruboscPX.setMaximumSize(new Dimension(100,50));
+		pole2.add(gruboscLinia);
+		pole2.add(gruboscPX);
+		
 		pole3 = new JPanel(new FlowLayout());
+		pole3.setLayout(new GridLayout(3,1));
+		wielokatRandom = new JRadioButton("Wielokąt losowy");
+		wielokatRandom.setActionCommand("0");
+		wielokatRandom.addActionListener(wielokatyListener);
+		wielokatRegularny = new JRadioButton("Wielokąt regularny");
+		wielokatRegularny.setActionCommand("1");
+		wielokatRegularny.addActionListener(wielokatyListener);
+		pole3.add(wielokatRandom);
+		pole3.add(wielokatRegularny);
+		ButtonGroup group = new ButtonGroup();
+		group.add(wielokatRandom);
+		group.add(wielokatRegularny);
 		
-		okienka.addTab("Opcje1", pole1);
-		okienka.addTab("Opcje2", pole2);
-		okienka.addTab("Opcje3", pole3);
+		katySekcja = new JPanel();
+		katySekcja.setLayout(new BoxLayout(katySekcja, BoxLayout.Y_AXIS));
+		katyOpis = new JLabel("Ile kątów:");
+		katySekcja.add(katyOpis);
+		katyWybor = new JSlider(JSlider.HORIZONTAL,0,50,4);
+		katySekcja.add(katyWybor);
+		katyPole = new JTextField("4");
+		katyPole.setMaximumSize(new Dimension(50,25));
+		katySekcja.add(katyPole);
+		pole3.add(katySekcja);
 		
-		this.add(okienka);
+		okienka.addTab("Kolory", pole1);
+		okienka.addTab("Linie", pole2);
+		okienka.addTab("Typ", pole3);
+		
+		this.add(okienka,BorderLayout.CENTER);
 		
 	}
+	
+	ActionListener wielokatyListener = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			int wybor = Integer.parseInt(arg0.getActionCommand());
+			switch(wybor)
+			{
+			case 0:
+				((Wielokat) plansza.getFigura()).UstalPunkty(false, 7, (float) 1,plansza.getWidth(), plansza.getHeight());
+				plansza.paintComponent(plansza.getGraphics());
+				break;
+			case 1:
+				((Wielokat) plansza.getFigura()).UstalPunkty(true, 7, (float) 1,plansza.getWidth(), plansza.getHeight());
+				plansza.paintComponent(plansza.getGraphics());
+				break;
+			}
+		}
+		
+	};
 	
 	ActionListener guzikZatwierdz = new ActionListener() 
 	{
@@ -109,12 +208,15 @@ public class Sterowanie extends JPanel {
 				Color nowy = new Color(R.getValue(), G.getValue(), B.getValue());
 				if(linie)
 				{
+					plansza.getFigura().setLiniaColor(nowy);
 					plansza.setColorline(nowy);
 				}
 				else
 				{
 					plansza.setBackground(nowy);
 				}
+				plansza.getFigura().setLiniaSize(gruboscLinia.getValue());
+				plansza.paintComponent(plansza.getGraphics());
 		}
 	};
 	
