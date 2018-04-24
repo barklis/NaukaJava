@@ -14,10 +14,10 @@ public class Plansza extends JPanel{
 	private int width;
 	private int height;
 	private Figura figura;
-	
-	Graphics2D g2d;
-	Color colorline;
-	BasicStroke stroke;
+	private Graphics2D g2d;
+	private BufferedImage grafika;
+	private Color colorline;
+	private BasicStroke stroke;
 
 	
 	public int getWidth() {
@@ -52,6 +52,30 @@ public class Plansza extends JPanel{
 		this.colorline = colorline;
 	}
 
+	public Graphics2D getG2d() {
+		return g2d;
+	}
+
+	public void setG2d(Graphics2D g2d) {
+		this.g2d = g2d;
+	}
+
+	public BufferedImage getGrafika() {
+		return grafika;
+	}
+
+	public void setGrafika(BufferedImage grafika) {
+		this.grafika = grafika;
+	}
+
+	public BasicStroke getStroke() {
+		return stroke;
+	}
+
+	public void setStroke(BasicStroke stroke) {
+		this.stroke = stroke;
+	}
+
 	public Plansza(int x, int y)
 	{
 		super();
@@ -76,6 +100,7 @@ public class Plansza extends JPanel{
 		g2d.setColor(colorline);
 		g2d.setStroke(new BasicStroke(figura.getLiniaSize()));
 		g2d.drawPolygon( (Wielokat) figura);
+		g2d.drawImage(grafika, 0, 0, this);
 	}
 	
 	

@@ -51,6 +51,7 @@ public class Sterowanie extends JPanel {
 	JLabel rozmiarOpis;
 	JSlider rozmiarWybor;
 	JTextField rozmiarPole;
+	JButton zatwierdz2;
 	
 	
 	public Sterowanie(Plansza plansza)
@@ -152,7 +153,7 @@ public class Sterowanie extends JPanel {
 		pole2.add(gruboscPX);
 		
 		pole3 = new JPanel(new FlowLayout());
-		pole3.setLayout(new GridLayout(4,1));
+		pole3.setLayout(new GridLayout(5,1));
 		wielokatRandom = new JRadioButton("Wielokąt losowy");
 		wielokatRandom.setActionCommand("0");
 		wielokatRandom.addActionListener(wielokatyListener);
@@ -234,6 +235,29 @@ public class Sterowanie extends JPanel {
 		rozmiarPole.setMaximumSize(new Dimension(50,25));
 		rozmiarSekcja.add(rozmiarPole);
 		pole3.add(rozmiarSekcja);
+		
+		zatwierdz2 = new JButton("Dostosuj");
+		zatwierdz2.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				int wybor = wielokatRandom.isSelected() == true ? 0 : 1;
+				switch(wybor)
+				{
+				case 0:
+					((Wielokat) plansza.getFigura()).UstalPunkty(false, katyWybor.getValue(), (float) rozmiarWybor.getValue()/100,plansza.getWidth(), plansza.getHeight());
+					break;
+				case 1:
+					((Wielokat) plansza.getFigura()).UstalPunkty(true, katyWybor.getValue(), (float) rozmiarWybor.getValue()/100,plansza.getWidth(), plansza.getHeight());
+					break;
+				}
+				plansza.paintComponent(plansza.getGraphics());
+				
+			}
+			
+		});
+		pole3.add(zatwierdz2);
 		
 		okienka.addTab("Kolory", pole1);
 		okienka.addTab("Linie", pole2);
